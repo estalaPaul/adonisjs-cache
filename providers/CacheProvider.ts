@@ -6,8 +6,7 @@ export default class CacheProvider {
 
 	public register() {
 		this.app.container.singleton('EstalaPaul/Adonis-Cache', () => {
-            const config = this.app.container.use('Adonis/Core/Config')
-			return new CacheManager(config)
+			return new CacheManager(this.app)
 		})
 
 		this.app.container.alias('EstalaPaul/Adonis-Cache', 'Cache')

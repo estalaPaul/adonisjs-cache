@@ -1,29 +1,37 @@
-import { ConfigContract } from '@ioc:Adonis/Core/Config'
-import { CacheDrivers, CacheStoreInterface } from '@ioc:EstalaPaul/AdonisJSCache'
+import {ApplicationContract} from '@ioc:Adonis/Core/Application'
+import { CacheConfig, CacheDrivers, CacheStoreInterface } from '@ioc:EstalaPaul/AdonisJSCache'
 import FileStore from './Stores/FileStore'
 
 class CacheManager {
     private store: CacheStoreInterface
 
-	constructor(config: ConfigContract) {
+	constructor(app: ApplicationContract) {
+        const config = app.container.use('Adonis/Core/Config')
 		const driver: CacheDrivers  = config.get('default')
+
 		switch (driver.toLowerCase()) {
 			case 'file':
-                this.store = FileStore()
+                const fileDriverConfig: CacheConfig['stores']['file'] = config.get('drivers.file')
+
+                if (!fileDriverConfig) {
+                    throw new Error('No driver config found for file.')
+                }
+
+                this.store = new FileStore(app.container.use('Adonis/Core/Hash'), app.tmpPath(fileDriverConfig.path))
 				break
 		}
 	}
 
-    public async get(name: string): Promise<any> {
-        return this.store.get(name)
+    public async get(key: string): Promise<any> {
+        return this.store.get(key)
     }
 
-    public async set(name: string, data: any, duration: number): Promise<any> {
-        return this.store.set(name, data, duration)
+    public async set(key: string, data: any, duration: number): Promise<any> {
+        return this.store.set(key, data, duration)
     }
 
-    public async delete(name: string): Promise<Boolean> {
-        return this.store.delete(name)
+    public async delete(key: string): Promise<Boolean> {
+        return this.store.delete(key)
     }
 }
 

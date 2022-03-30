@@ -15,15 +15,15 @@ declare module '@ioc:EstalaPaul/AdonisJSCache' {
 
     export interface CacheManagerInterface {
         constructor(config: ConfigContract): void
-        get(name: string): Promise<any>
-        set(name: string, data: any, duration: number): Promise<any>
-        delete(name: string): Promise<Boolean>
+        get(key: string): Promise<any>
+        set(key: string, data: any, duration: number): Promise<any>
+        delete(key: string): Promise<Boolean>
     }
 
     export interface CacheStoreInterface {
-        get(name: string): Promise<any>
-        set(name: string, data: any, duration: number): Promise<any>
-        delete(name: string): Promise<Boolean>
+        get(key: string): Promise<any>
+        set(key: string, data: any, duration: number): Promise<any>
+        delete(key: string): Promise<Boolean>
     }
 
     const Cache: CacheManagerInterface
