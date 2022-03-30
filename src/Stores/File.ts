@@ -3,7 +3,7 @@ import { HashContract } from '@ioc:Adonis/Core/Hash'
 import { existsSync, mkdirSync } from 'fs'
 import { readFile } from 'fs/promises'
 
-class FileStore implements CacheStoreInterface {
+class File implements CacheStoreInterface {
     private directory: string
 
     private hash: HashContract
@@ -55,4 +55,4 @@ class FileStore implements CacheStoreInterface {
     }
 }
 
-export default FileStore
+export default File

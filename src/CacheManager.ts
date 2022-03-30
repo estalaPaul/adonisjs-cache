@@ -1,6 +1,6 @@
-import {ApplicationContract} from '@ioc:Adonis/Core/Application'
+import { ApplicationContract } from '@ioc:Adonis/Core/Application'
 import { CacheConfig, CacheDrivers, CacheStoreInterface } from '@ioc:EstalaPaul/AdonisJSCache'
-import FileStore from './Stores/FileStore'
+import FileStore from './Stores/File'
 
 class CacheManager {
     private store: CacheStoreInterface
