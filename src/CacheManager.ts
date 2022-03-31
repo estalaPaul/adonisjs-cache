@@ -17,7 +17,7 @@ class CacheManager {
                     throw new Error('No driver config found for file.')
                 }
 
-                this.store = new FileStore(app.container.use('Adonis/Core/Hash'), app.tmpPath(fileDriverConfig.path))
+                this.store = new FileStore(app.tmpPath(fileDriverConfig.path))
 				break
 		}
 	}

@@ -1,20 +1,17 @@
 import { CacheStoreInterface } from '@ioc:EstalaPaul/AdonisJSCache'
-import { HashContract } from '@ioc:Adonis/Core/Hash'
 import { existsSync, mkdirSync } from 'fs'
-import { readFile } from 'fs/promises'
+import { readFile, writeFile, unlink } from 'fs/promises'
+import crypto from 'crypto'
 
 class File implements CacheStoreInterface {
     private directory: string
 
-    private hash: HashContract
-
-    constructor(hash: HashContract, directoryPath: string) {
+    constructor(directoryPath: string) {
         if (!existsSync(directoryPath)) {
             mkdirSync(directoryPath, { recursive: true })
         }
 
         this.directory = directoryPath
-        this.hash = hash
     }
 
 	public async get(key: string): Promise<any> {
@@ -41,17 +38,27 @@ class File implements CacheStoreInterface {
         }
 	}
 
-	public async set(key: string, data: any, duration: number = 0): Promise<any> {
-        // TODO
+	public async set(key: string, data: any, duration: number | null = null): Promise<any> {
+        const contents = {
+            data: data,
+            time: duration
+        }
+
+        await writeFile(this.path(key), JSON.stringify(contents))
+        return contents
 	}
 
 	public async delete(key: string): Promise<Boolean> {
-        // TODO
-        return false
+        try {
+            await unlink(this.path(key))
+            return true
+        } catch (error) {
+            return false
+        }
 	}
 
     private path(key: string): string {
-        return `${this.directory}/${this.hash.hash(key)}`
+        return `${this.directory}/${crypto.createHash('sha1').update(key).digest('base64')}`
     }
 }
 
