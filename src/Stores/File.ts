@@ -14,6 +14,11 @@ class File implements CacheStoreInterface {
         this.directory = directoryPath
     }
 
+    /**
+     * Attempts to retrieve and return the given key from file cache if it exists and it is not expired.
+     *
+     * @param key The key for which to retrieve the file cache entry for.
+     */
 	public async get(key: string): Promise<any> {
         try {
             const contents = JSON.parse(await readFile(this.path(key), { encoding: 'utf-8' }))
@@ -38,6 +43,16 @@ class File implements CacheStoreInterface {
         }
 	}
 
+    /**
+     * Creates or overwrites a file cache entry with the given key and returns the stored data.
+     *
+     * @param key The key for which to create the file cache entry for.
+     * @param data The data to save in the cache entry.
+     * @param data
+     * Number of seconds the cache entry should last.
+     * If no duration is given, the cache will be
+     * saved until it is implicitly deleted.
+     */
 	public async set(key: string, data: any, duration: number | null = null): Promise<any> {
         const contents = {
             data: data,
@@ -48,6 +63,12 @@ class File implements CacheStoreInterface {
         return contents
 	}
 
+    /**
+     * Attempts to file cache entry with the given key. Returns true
+     * on success and false on failure.
+     *
+     * @param key The key for which to delete the file cache entry for.
+     */
 	public async delete(key: string): Promise<Boolean> {
         try {
             await unlink(this.path(key))
