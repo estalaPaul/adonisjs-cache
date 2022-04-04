@@ -43,6 +43,19 @@ class File implements CacheStoreInterface {
         }
 	}
 
+    public async has(key: string): Promise<Boolean> {
+        return await this.get(key) !== null
+    }
+
+    public async add(key: string, data: any, duration: number | null = null): Promise<boolean> {
+        if (await this.has(key)) {
+            return false
+        }
+
+        await this.set(key, data, duration)
+        return true
+    }
+
     /**
      * Creates or overwrites a file cache entry with the given key and returns the stored data.
      *
