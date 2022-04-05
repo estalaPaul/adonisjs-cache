@@ -26,12 +26,28 @@ class CacheManager {
         return this.store.get(key)
     }
 
+    public async has(key: string): Promise<boolean> {
+        return this.store.has(key)
+    }
+
+    public async add(key: string, data: any, duration: number): Promise<boolean> {
+        return this.store.add(key, data, duration)
+    }
+
     public async set(key: string, data: any, duration: number): Promise<any> {
         return this.store.set(key, data, duration)
     }
 
-    public async delete(key: string): Promise<Boolean> {
+    public async flush(): Promise<boolean> {
+        return this.store.flush()
+    }
+
+    public async delete(key: string): Promise<boolean> {
         return this.store.delete(key)
+    }
+
+    public async keys(): Promise<Record<string, string>> {
+        return this.store.keys()
     }
 }
 

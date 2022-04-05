@@ -61,7 +61,7 @@ class File implements CacheStoreInterface {
      *
      * @param key The key for which to check for.
      */
-    public async has(key: string): Promise<Boolean> {
+    public async has(key: string): Promise<boolean> {
         return await this.get(key) !== null
     }
 
@@ -112,7 +112,7 @@ class File implements CacheStoreInterface {
      *
      * @param key The key for which to delete the file cache entry for.
      */
-	public async delete(key: string): Promise<Boolean> {
+	public async delete(key: string): Promise<boolean> {
         try {
             await rm(this.path(key))
             await this.removeKey(key)
