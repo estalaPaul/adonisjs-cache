@@ -20,7 +20,7 @@ test('can save cache entry for certain time', async ({ expect }) => {
 
     await fileStore.set('random', data, 30)
 
-    const clock = FakeTimers.install({now: currentTime + 40})
+    const clock = FakeTimers.install({ now: currentTime + 40 })
     expect(await fileStore.get('random')).toBeNull()
     clock.uninstall()
 })

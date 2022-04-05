@@ -32,9 +32,11 @@ class File implements CacheStoreInterface {
      *
      * @param key The key for which to retrieve the file cache entry for.
      */
-	public async get(key: string): Promise<any> {
+    public async get(key: string): Promise<any> {
         try {
-            const contents = JSON.parse(await readFile(this.path(key), { encoding: 'utf-8' }))
+            const contents = JSON.parse(
+                await readFile(this.path(key), { encoding: 'utf-8' })
+            )
 
             if (!('data' in contents) || !('time' in contents)) {
                 return null
@@ -54,7 +56,7 @@ class File implements CacheStoreInterface {
         } catch (error) {
             return null
         }
-	}
+    }
 
     /**
      * Checks if the given key exists as file cache entry.
@@ -62,7 +64,7 @@ class File implements CacheStoreInterface {
      * @param key The key for which to check for.
      */
     public async has(key: string): Promise<boolean> {
-        return await this.get(key) !== null
+        return (await this.get(key)) !== null
     }
 
     /**
@@ -71,12 +73,16 @@ class File implements CacheStoreInterface {
      *
      * @param key The key for which to check for.
      * @param data The data to save in the cache entry.
-     * @param duration 
+     * @param duration
      * Number of seconds the cache entry should last.
      * If no duration is given, the cache will be
      * saved until it is implicitly deleted.
      */
-    public async add(key: string, data: any, duration: number | null = null): Promise<boolean> {
+    public async add(
+        key: string,
+        data: any,
+        duration: number | null = null
+    ): Promise<boolean> {
         if (await this.has(key)) {
             return false
         }
@@ -91,28 +97,32 @@ class File implements CacheStoreInterface {
      *
      * @param key The key for which to create the file cache entry for.
      * @param data The data to save in the cache entry.
-     * @param duration 
+     * @param duration
      * Number of seconds the cache entry should last.
      * If no duration is given, the cache will be
      * saved until it is implicitly deleted.
      */
-	public async set(key: string, data: any, duration: number | null = null): Promise<any> {
+    public async set(
+        key: string,
+        data: any,
+        duration: number | null = null
+    ): Promise<any> {
         const contents = {
             data: data,
-            time: duration !== null ? new Date().getTime() + duration : null
+            time: duration !== null ? new Date().getTime() + duration : null,
         }
 
         await writeFile(this.path(key), JSON.stringify(contents))
         await this.storeKey(key)
         return contents
-	}
+    }
 
     /**
      * Attempts to file cache entry with the given key. Returns true on success and false on failure.
      *
      * @param key The key for which to delete the file cache entry for.
      */
-	public async delete(key: string): Promise<boolean> {
+    public async delete(key: string): Promise<boolean> {
         try {
             await rm(this.path(key))
             await this.removeKey(key)
@@ -120,7 +130,7 @@ class File implements CacheStoreInterface {
         } catch (error) {
             return false
         }
-	}
+    }
 
     /**
      * Attempts to remove all file cache entries. Returns true on success and false on failure.
@@ -130,7 +140,7 @@ class File implements CacheStoreInterface {
             await rm(`${this.directory}`, { recursive: true })
             await mkdir(this.directory)
             await rm(`${this.keysDirectory}/keys`)
-            return true;
+            return true
         } catch (error) {
             console.log(error)
             return false

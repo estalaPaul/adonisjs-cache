@@ -9,12 +9,12 @@ import { Application } from '@adonisjs/core/build/standalone'
 export const fs = new Filesystem(join(__dirname, '..', '.tmp'))
 
 /**
-* Setup application
-*/
+ * Setup application
+ */
 export async function setupApplication() {
     await fs.add('.env', '')
     await fs.add('.adonisrc.json', '{}')
-    await fs.add( 'config/app.ts', "export const appKey = 'somerandomappkey'")
+    await fs.add('config/app.ts', "export const appKey = 'somerandomappkey'")
 
     const app = new Application(fs.basePath, 'test')
 
@@ -43,7 +43,7 @@ configure({
         plugins: [expect()],
         reporters: [specReporter()],
         importer: (filePath) => import(filePath),
-        setup: [setupApplication]
+        setup: [setupApplication],
     },
 })
 

@@ -1,26 +1,31 @@
 import { ApplicationContract } from '@ioc:Adonis/Core/Application'
-import { CacheConfig, CacheDrivers, CacheStoreInterface } from '@ioc:EstalaPaul/AdonisJSCache'
+import {
+    CacheConfig,
+    CacheDrivers,
+    CacheStoreInterface,
+} from '@ioc:EstalaPaul/AdonisJSCache'
 import FileStore from './Stores/File'
 
 class CacheManager {
     private store: CacheStoreInterface
 
-	constructor(app: ApplicationContract) {
+    constructor(app: ApplicationContract) {
         const config = app.container.use('Adonis/Core/Config')
-		const driver: CacheDrivers  = config.get('default')
+        const driver: CacheDrivers = config.get('default')
 
-		switch (driver.toLowerCase()) {
-			case 'file':
-                const fileDriverConfig: CacheConfig['stores']['file'] = config.get('drivers.file')
+        switch (driver.toLowerCase()) {
+            case 'file':
+                const fileDriverConfig: CacheConfig['stores']['file'] =
+                    config.get('drivers.file')
 
                 if (!fileDriverConfig) {
                     throw new Error('No driver config found for file.')
                 }
 
                 this.store = new FileStore(app.tmpPath(fileDriverConfig.path))
-				break
-		}
-	}
+                break
+        }
+    }
 
     public async get(key: string): Promise<any> {
         return this.store.get(key)
@@ -30,7 +35,11 @@ class CacheManager {
         return this.store.has(key)
     }
 
-    public async add(key: string, data: any, duration: number): Promise<boolean> {
+    public async add(
+        key: string,
+        data: any,
+        duration: number
+    ): Promise<boolean> {
         return this.store.add(key, data, duration)
     }
 
