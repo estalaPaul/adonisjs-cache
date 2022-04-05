@@ -9,7 +9,7 @@ test('has detects existing cache entry', async ({ expect }) => {
     const has = await fileStore.has('random')
 
     expect(has).toBeTruthy()
-    cleanCacheEntries(['random'], fileStore)
+    await cleanCacheEntries(['random'], fileStore)
 })
 
 test('has detects non existent cache entry', async ({ expect }) => {

@@ -1,6 +1,6 @@
 import { CacheStoreInterface } from '@ioc:EstalaPaul/AdonisJSCache'
 import { existsSync, mkdirSync } from 'fs'
-import { readFile, writeFile, unlink } from 'fs/promises'
+import { readFile, writeFile, rm, mkdir } from 'fs/promises'
 import crypto from 'crypto'
 
 class File implements CacheStoreInterface {
@@ -13,12 +13,17 @@ class File implements CacheStoreInterface {
             mkdirSync(directoryPath, { recursive: true })
         }
 
-        const keysDirectory = `${directoryPath}/keys`
-        if (!existsSync(keysDirectory)) {
-            mkdirSync(keysDirectory, { recursive: true })
+        const directory = `${directoryPath}/cache`
+        if (!existsSync(directory)) {
+            mkdirSync(directory)
         }
 
-        this.directory = directoryPath
+        const keysDirectory = `${directoryPath}/keys`
+        if (!existsSync(keysDirectory)) {
+            mkdirSync(keysDirectory)
+        }
+
+        this.directory = directory
         this.keysDirectory = keysDirectory
     }
 
@@ -109,7 +114,7 @@ class File implements CacheStoreInterface {
      */
 	public async delete(key: string): Promise<Boolean> {
         try {
-            await unlink(this.path(key))
+            await rm(this.path(key))
             await this.removeKey(key)
             return true
         } catch (error) {
@@ -117,6 +122,24 @@ class File implements CacheStoreInterface {
         }
 	}
 
+    /**
+     * Attempts to remove all file cache entries. Returns true on success and false on failure.
+     */
+    public async flush(): Promise<boolean> {
+        try {
+            await rm(`${this.directory}`, { recursive: true })
+            await mkdir(this.directory)
+            await rm(`${this.keysDirectory}/keys`)
+            return true;
+        } catch (error) {
+            console.log(error)
+            return false
+        }
+    }
+
+    /**
+     * Retrieves and returns all the keys currently stored in the file cache.
+     */
     public async keys(): Promise<Record<string, string>> {
         const path = `${this.keysDirectory}/keys`
         try {

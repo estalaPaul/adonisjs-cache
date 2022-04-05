@@ -10,7 +10,7 @@ test('can save cache entry forever', async ({ expect }) => {
     await fileStore.set('random', data)
 
     expect(await fileStore.get('random')).toEqual(data)
-    cleanCacheEntries(['random'], fileStore)
+    await cleanCacheEntries(['random'], fileStore)
 })
 
 test('can save cache entry for certain time', async ({ expect }) => {
@@ -37,7 +37,7 @@ test('keys are stored correctly', async ({ expect }) => {
     expect(Object.keys(keys)).toContain('random')
     expect(Object.keys(keys)).toContain('random2')
     expect(Object.keys(keys)).toContain('random3')
-    cleanCacheEntries(['random', 'random2', 'random3'], fileStore)
+    await cleanCacheEntries(['random', 'random2', 'random3'], fileStore)
 })
 
 test('keys are deleted correctly', async ({ expect }) => {
@@ -50,5 +50,5 @@ test('keys are deleted correctly', async ({ expect }) => {
 
     expect(Object.keys(keys)).toHaveLength(1)
     expect(Object.keys(keys)).toContain('random2')
-    cleanCacheEntries(['random2'], fileStore)
+    await cleanCacheEntries(['random2'], fileStore)
 })
