@@ -6,12 +6,20 @@ import crypto from 'crypto'
 class File implements CacheStoreInterface {
     private directory: string
 
+    private keysDirectory: string
+
     constructor(directoryPath: string) {
         if (!existsSync(directoryPath)) {
             mkdirSync(directoryPath, { recursive: true })
         }
 
+        const keysDirectory = `${directoryPath}/keys`
+        if (!existsSync(keysDirectory)) {
+            mkdirSync(keysDirectory, { recursive: true })
+        }
+
         this.directory = directoryPath
+        this.keysDirectory = keysDirectory
     }
 
     /**
@@ -69,6 +77,7 @@ class File implements CacheStoreInterface {
         }
 
         await this.set(key, data, duration)
+        await this.storeKey(key)
         return true
     }
 
@@ -89,26 +98,56 @@ class File implements CacheStoreInterface {
         }
 
         await writeFile(this.path(key), JSON.stringify(contents))
+        await this.storeKey(key)
         return contents
 	}
 
     /**
-     * Attempts to file cache entry with the given key. Returns true
-     * on success and false on failure.
+     * Attempts to file cache entry with the given key. Returns true on success and false on failure.
      *
      * @param key The key for which to delete the file cache entry for.
      */
 	public async delete(key: string): Promise<Boolean> {
         try {
             await unlink(this.path(key))
+            await this.removeKey(key)
             return true
         } catch (error) {
             return false
         }
 	}
 
+    public async keys(): Promise<Record<string, string>> {
+        const path = `${this.keysDirectory}/keys`
+        try {
+            return JSON.parse(await readFile(path, { encoding: 'utf-8' }))
+        } catch (error) {
+            return {}
+        }
+    }
+
+    private async removeKey(key: string): Promise<void> {
+        const keys = await this.keys()
+        delete keys[key]
+        await this.saveKeys(keys)
+    }
+
+    private async storeKey(key: string): Promise<void> {
+        const keys = await this.keys()
+        keys[key] = this.hashKey(key)
+        await this.saveKeys(keys)
+    }
+
+    private async saveKeys(keys: Record<string, string>): Promise<void> {
+        await writeFile(`${this.keysDirectory}/keys`, JSON.stringify(keys))
+    }
+
     private path(key: string): string {
-        return `${this.directory}/${crypto.createHash('sha1').update(key).digest('base64')}`
+        return `${this.directory}/${this.hashKey(key)}`
+    }
+
+    private hashKey(key: string): string {
+        return crypto.createHash('sha1').update(key).digest('base64')
     }
 }
 
