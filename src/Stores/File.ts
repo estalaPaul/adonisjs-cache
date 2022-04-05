@@ -43,10 +43,26 @@ class File implements CacheStoreInterface {
         }
 	}
 
+    /**
+     * Checks if the given key exists as file cache entry.
+     *
+     * @param key The key for which to check for.
+     */
     public async has(key: string): Promise<Boolean> {
         return await this.get(key) !== null
     }
 
+    /**
+     * Creates a new cache entry only if it does not exists. Returns true if the cache
+     * entry was created, false otherwise.
+     *
+     * @param key The key for which to check for.
+     * @param data The data to save in the cache entry.
+     * @param duration 
+     * Number of seconds the cache entry should last.
+     * If no duration is given, the cache will be
+     * saved until it is implicitly deleted.
+     */
     public async add(key: string, data: any, duration: number | null = null): Promise<boolean> {
         if (await this.has(key)) {
             return false
@@ -61,7 +77,7 @@ class File implements CacheStoreInterface {
      *
      * @param key The key for which to create the file cache entry for.
      * @param data The data to save in the cache entry.
-     * @param data
+     * @param duration 
      * Number of seconds the cache entry should last.
      * If no duration is given, the cache will be
      * saved until it is implicitly deleted.
