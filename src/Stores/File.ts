@@ -76,7 +76,7 @@ class File implements CacheStoreInterface {
      * @param duration
      * Number of seconds the cache entry should last.
      * If no duration is given, the cache will be
-     * saved until it is implicitly deleted.
+     * saved until it is explicitly deleted.
      */
     public async add(
         key: string,
@@ -157,6 +157,32 @@ class File implements CacheStoreInterface {
         } catch (error) {
             return {}
         }
+    }
+
+    /**
+     * Attempts to retrieve the given value from cache and if no
+     * value is found, it creates a new file cache entry with
+     * the value retrieved from the callback given.
+     *
+     * @param key The key for which to create the file cache entry for.
+     * @param callback
+     * Function to use to set value if cache entry with
+     * given key does not exist.
+     * @param duration
+     * Number of seconds the cache entry should last.
+     * If no duration is given, the cache will be
+     * saved until it is explicitly deleted.
+     */
+    public async remember(
+        key: string,
+        callback: Function,
+        duration: number | null = null
+    ): Promise<any> {
+        if (await this.has(key)) {
+            return await this.get(key)
+        }
+
+        return await this.set(key, await callback(), duration)
     }
 
     private async removeKey(key: string): Promise<void> {
