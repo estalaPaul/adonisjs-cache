@@ -5,6 +5,7 @@ import crypto from 'crypto'
 
 test('get file store with missing directory', async ({ expect }) => {
     new FileStore('./.tmp/testing-missing-dir/')
+
     expect(
         async () => await access('./.tmp/testing-missing-dir/')
     ).not.toThrow()
@@ -18,7 +19,9 @@ test('get invalid cache entry', async ({ expect }) => {
         .digest('base64')}`
     await writeFile(path, JSON.stringify({ test: 'testing' }))
 
-    expect(await fileStore.get('random')).toBeNull()
+    const getResult = await fileStore.get('random')
+
+    expect(getResult).toBeNull()
     await rm(path)
 })
 
