@@ -7,6 +7,7 @@ import { Filesystem } from '@poppinss/dev-utils'
 import { Application } from '@adonisjs/core/build/standalone'
 
 export const fs = new Filesystem(join(__dirname, '..', '.tmp'))
+export let app: Application
 
 /**
  * Setup application
@@ -14,13 +15,18 @@ export const fs = new Filesystem(join(__dirname, '..', '.tmp'))
 export async function setupApplication() {
     await fs.add('.env', '')
     await fs.add('.adonisrc.json', '{}')
-    await fs.add('config/app.ts', "export const appKey = 'somerandomappkey'")
+    await fs.add('config/app.ts', "export const appKey = 'some-random-app-key'")
 
-    const app = new Application(fs.basePath, 'test')
+    app = new Application(fs.basePath, 'test')
 
     app.setup()
     app.registerProviders()
     await app.bootProviders()
+}
+
+export async function teardownApplication() {
+    app.shutdown()
+    fs.cleanup()
 }
 
 /*
@@ -44,6 +50,7 @@ configure({
         reporters: [specReporter()],
         importer: (filePath) => import(filePath),
         setup: [setupApplication],
+        teardown: [teardownApplication],
     },
 })
 
