@@ -1,7 +1,14 @@
 import { test } from '@japa/runner'
-import { rm, writeFile } from 'fs/promises'
+import { rm, writeFile, access } from 'fs/promises'
 import FileStore from '../../../src/Stores/File'
 import crypto from 'crypto'
+
+test('get file store with missing directory', async ({ expect }) => {
+    new FileStore('./.tmp/testing-missing-dir/')
+    expect(
+        async () => await access('./.tmp/testing-missing-dir/')
+    ).not.toThrow()
+})
 
 test('get invalid cache entry', async ({ expect }) => {
     const fileStore = new FileStore('./.tmp')
