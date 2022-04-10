@@ -25,7 +25,8 @@
         "eslint-plugin-prettier": "^4.0.0",
         "mrm": "^4.0.0",
         "prettier": "2.6.1",
-        "typescript": "^4.6.3"
+        "typescript": "^4.6.3",
+        "@sinonjs/fake-timers": "^9.1.1"
     },
     "name": "adonisjs-cache",
     "version": "1.0.0",
@@ -40,7 +41,7 @@
         "Cache"
     ],
     "author": "Paul Estala",
-    "license": "UNLICENSED",
+    "license": "MIT",
     "bugs": {
         "url": "https://github.com/estalaPaul/adonisjs-cache/issues"
     },
@@ -49,8 +50,5 @@
         "build/src",
         "build/index.d.ts",
         "build/index.js"
-    ],
-    "dependencies": {
-        "@sinonjs/fake-timers": "^9.1.1"
-    }
+    ]
 }
