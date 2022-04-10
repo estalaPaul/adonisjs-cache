@@ -142,7 +142,6 @@ class File implements CacheStoreInterface {
             await rm(`${this.keysDirectory}/keys`)
             return true
         } catch (error) {
-            console.log(error)
             return false
         }
     }
