@@ -1,3 +1,3 @@
 # AdonisJS Cache
 
-A simple cache provider for AdonisJS 5.
+A simple cache provider for [AdonisJS](https://adonisjs.com/).
