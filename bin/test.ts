@@ -16,6 +16,16 @@ export async function setupApplication() {
     await fs.add('.env', '')
     await fs.add('.adonisrc.json', '{}')
     await fs.add('config/app.ts', "export const appKey = 'some-random-app-key'")
+    await fs.add(
+        'config/cache.ts',
+        `export const driver = 'file'
+         export const stores = {
+            file: {
+                driver: 'file',
+                path: './testing-cache-manager'
+            }
+        }`
+    )
 
     app = new Application(fs.basePath, 'test')
 

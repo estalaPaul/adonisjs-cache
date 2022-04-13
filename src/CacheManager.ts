@@ -11,18 +11,18 @@ class CacheManager {
 
     constructor(app: ApplicationContract) {
         const config = app.container.use('Adonis/Core/Config')
-        const driver: CacheDrivers = config.get('default')
+        const driver: CacheDrivers = config.get('cache.driver')
 
         switch (driver.toLowerCase()) {
             case 'file':
                 const fileDriverConfig: CacheConfig['stores']['file'] =
-                    config.get('drivers.file')
+                    config.get('cache.stores.file')
 
                 if (!fileDriverConfig) {
                     throw new Error('No driver config found for file.')
                 }
 
-                this.store = new FileStore(app.tmpPath(fileDriverConfig.path))
+                this.store = new FileStore(app.makePath(fileDriverConfig.path))
                 break
         }
     }
