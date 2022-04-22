@@ -19,6 +19,11 @@ declare module '@ioc:EstalaPaul/AdonisJSCache' {
         has(key: string): Promise<boolean>
         add(key: string, data: any, duration: number | null): Promise<boolean>
         set(key: string, data: any, duration: number | null): Promise<any>
+        remember(
+            key: string,
+            callback: Function,
+            duration: number | null
+        ): Promise<boolean>
         flush(): Promise<boolean>
         delete(key: string): Promise<boolean>
         keys(): Promise<Record<string, string>>
@@ -29,6 +34,11 @@ declare module '@ioc:EstalaPaul/AdonisJSCache' {
         has(key: string): Promise<boolean>
         add(key: string, data: any, duration: number | null): Promise<boolean>
         set(key: string, data: any, duration: number | null): Promise<any>
+        remember(
+            key: string,
+            callback: Function,
+            duration: number | null
+        ): Promise<boolean>
         flush(): Promise<boolean>
         delete(key: string): Promise<boolean>
         keys(): Promise<Record<string, string>>

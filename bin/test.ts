@@ -35,8 +35,8 @@ export async function setupApplication() {
 }
 
 export async function teardownApplication() {
-    app.shutdown()
-    fs.cleanup()
+    await app.shutdown()
+    await fs.cleanup()
 }
 
 /*

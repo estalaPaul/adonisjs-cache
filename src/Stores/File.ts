@@ -114,7 +114,7 @@ class File implements CacheStoreInterface {
 
         await writeFile(this.path(key), JSON.stringify(contents))
         await this.storeKey(key)
-        return contents
+        return contents.data
     }
 
     /**

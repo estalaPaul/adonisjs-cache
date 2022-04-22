@@ -32,8 +32,8 @@ test('remember saves data if entry is expired', async ({ expect }) => {
     const fileStore = new FileStore('./.tmp')
     await fileStore.set('random', { testing: 'testing' }, 30)
     const data = { foo: 'bar', ping: 'pong' }
-
     const currentTime = new Date().getTime()
+
     const clock = FakeTimers.install({ now: currentTime + 40 })
 
     await fileStore.remember('random', () => {

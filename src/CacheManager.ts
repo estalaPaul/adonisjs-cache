@@ -38,13 +38,25 @@ class CacheManager {
     public async add(
         key: string,
         data: any,
-        duration: number
+        duration: number | null = null
     ): Promise<boolean> {
         return this.store.add(key, data, duration)
     }
 
-    public async set(key: string, data: any, duration: number): Promise<any> {
+    public async set(
+        key: string,
+        data: any,
+        duration: number | null = null
+    ): Promise<any> {
         return this.store.set(key, data, duration)
+    }
+
+    public async remember(
+        key: string,
+        callback: Function,
+        duration: number | null = null
+    ): Promise<any> {
+        return await this.store.remember(key, callback, duration)
     }
 
     public async flush(): Promise<boolean> {
