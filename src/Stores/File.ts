@@ -27,11 +27,10 @@ class File implements CacheStoreInterface {
         this.keysDirectory = keysDirectory
     }
 
-    /**
-     * Attempts to retrieve and return the given key from file cache if it exists and it is not expired.
-     *
-     * @param key The key for which to retrieve the file cache entry for.
-     */
+    public async has(key: string): Promise<boolean> {
+        return (await this.get(key)) !== null
+    }
+
     public async get(key: string): Promise<any> {
         try {
             const contents = JSON.parse(
@@ -58,26 +57,6 @@ class File implements CacheStoreInterface {
         }
     }
 
-    /**
-     * Checks if the given key exists as file cache entry.
-     *
-     * @param key The key for which to check for.
-     */
-    public async has(key: string): Promise<boolean> {
-        return (await this.get(key)) !== null
-    }
-
-    /**
-     * Creates a new cache entry only if it does not exists. Returns true if the cache
-     * entry was created, false otherwise.
-     *
-     * @param key The key for which to check for.
-     * @param data The data to save in the cache entry.
-     * @param duration
-     * Number of seconds the cache entry should last.
-     * If no duration is given, the cache will be
-     * saved until it is explicitly deleted.
-     */
     public async add(
         key: string,
         data: any,
@@ -92,16 +71,6 @@ class File implements CacheStoreInterface {
         return true
     }
 
-    /**
-     * Creates or overwrites a file cache entry with the given key and returns the stored data.
-     *
-     * @param key The key for which to create the file cache entry for.
-     * @param data The data to save in the cache entry.
-     * @param duration
-     * Number of seconds the cache entry should last.
-     * If no duration is given, the cache will be
-     * saved until it is implicitly deleted.
-     */
     public async set(
         key: string,
         data: any,
@@ -117,11 +86,18 @@ class File implements CacheStoreInterface {
         return contents.data
     }
 
-    /**
-     * Attempts to file cache entry with the given key. Returns true on success and false on failure.
-     *
-     * @param key The key for which to delete the file cache entry for.
-     */
+    public async remember(
+        key: string,
+        callback: Function,
+        duration: number | null = null
+    ): Promise<any> {
+        if (await this.has(key)) {
+            return await this.get(key)
+        }
+
+        return await this.set(key, await callback(), duration)
+    }
+
     public async delete(key: string): Promise<boolean> {
         try {
             await rm(this.path(key))
@@ -132,9 +108,6 @@ class File implements CacheStoreInterface {
         }
     }
 
-    /**
-     * Attempts to remove all file cache entries. Returns true on success and false on failure.
-     */
     public async flush(): Promise<boolean> {
         try {
             await rm(`${this.directory}`, { recursive: true })
@@ -146,9 +119,6 @@ class File implements CacheStoreInterface {
         }
     }
 
-    /**
-     * Retrieves and returns all the keys currently stored in the file cache.
-     */
     public async keys(): Promise<Record<string, string>> {
         const path = `${this.keysDirectory}/keys`
         try {
@@ -156,32 +126,6 @@ class File implements CacheStoreInterface {
         } catch (error) {
             return {}
         }
-    }
-
-    /**
-     * Attempts to retrieve the given value from cache and if no
-     * value is found, it creates a new file cache entry with
-     * the value retrieved from the callback given.
-     *
-     * @param key The key for which to create the file cache entry for.
-     * @param callback
-     * Function to use to set value if cache entry with
-     * given key does not exist.
-     * @param duration
-     * Number of seconds the cache entry should last.
-     * If no duration is given, the cache will be
-     * saved until it is explicitly deleted.
-     */
-    public async remember(
-        key: string,
-        callback: Function,
-        duration: number | null = null
-    ): Promise<any> {
-        if (await this.has(key)) {
-            return await this.get(key)
-        }
-
-        return await this.set(key, await callback(), duration)
     }
 
     private async removeKey(key: string): Promise<void> {
