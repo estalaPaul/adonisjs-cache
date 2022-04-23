@@ -53,15 +53,17 @@
     },
     "homepage": "https://github.com/estalaPaul/adonisjs-cache#readme",
     "files": [
+        "build/adonis-typings",
+        "build/providers",
         "build/src",
-        "build/index.d.ts",
-        "build/index.js"
+        "build/templates"
     ],
     "config": {
         "commitizen": {
             "path": "./node_modules/cz-conventional-changelog"
         }
     },
+    "types": "build/adonis-typings/index.d.ts",
     "adonisjs": {
         "types": "adonisjs-cache",
         "providers": [
