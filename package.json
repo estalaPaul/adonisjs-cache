@@ -60,5 +60,20 @@
         "commitizen": {
             "path": "./node_modules/cz-conventional-changelog"
         }
+    },
+    "adonisjs": {
+        "types": "adonisjs-cache",
+        "providers": [
+            "adonisjs-cache"
+        ],
+        "templates": {
+            "basePath": "./build/templates",
+            "config": [
+                {
+                    "src": "config.txt",
+                    "dest": "cache"
+                }
+            ]
+        }
     }
 }
