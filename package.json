@@ -75,7 +75,7 @@
             "config": [
                 {
                     "src": "config.txt",
-                    "dest": "sentry"
+                    "dest": "cache"
                 }
             ]
         }
