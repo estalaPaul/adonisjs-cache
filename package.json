@@ -6,6 +6,7 @@
         "test": "c8 node -r @adonisjs/require-ts/build/register bin/test.ts",
         "clean": "del-cli build",
         "compile": "npm run lint && npm run clean && tsc && npm run copy-templates",
+        "commit": "git-cz",
         "build": "npm run compile",
         "prepublishOnly": "npm run build",
         "copy-templates": "cp -r templates build/"
@@ -54,9 +55,12 @@
     "homepage": "https://github.com/estalaPaul/adonisjs-cache#readme",
     "files": [
         "build/adonis-typings",
+        "build/bin",
         "build/providers",
         "build/src",
-        "build/templates"
+        "build/templates",
+        "build/test-helpers",
+        "build/tests"
     ],
     "config": {
         "commitizen": {
@@ -68,15 +72,6 @@
         "types": "adonisjs-cache",
         "providers": [
             "adonisjs-cache"
-        ],
-        "templates": {
-            "basePath": "./build/templates",
-            "config": [
-                {
-                    "src": "config.txt",
-                    "dest": "cache"
-                }
-            ]
-        }
+        ]
     }
 }
