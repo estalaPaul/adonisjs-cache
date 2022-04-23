@@ -5,7 +5,7 @@
         "pretest": "npm run lint",
         "test": "c8 node -r @adonisjs/require-ts/build/register bin/test.ts",
         "clean": "del-cli build",
-        "compile": "npm run lint && npm run clean && tsc && npm run copy-templates",
+        "compile": "npm run lint && npm run clean && tsc",
         "commit": "git-cz",
         "build": "npm run compile",
         "prepublishOnly": "npm run build",
