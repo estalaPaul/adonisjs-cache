@@ -37,7 +37,7 @@
     "name": "adonisjs-cache",
     "version": "0.3.1",
     "description": "Cache provider for AdonisJS",
-    "main": "index.js",
+    "main": "build/providers/CacheProvider.js",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/estalaPaul/adonisjs-cache.git"
