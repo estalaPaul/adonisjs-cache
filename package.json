@@ -55,12 +55,9 @@
     "homepage": "https://github.com/estalaPaul/adonisjs-cache#readme",
     "files": [
         "build/adonis-typings",
-        "build/bin",
         "build/providers",
         "build/src",
-        "build/templates",
-        "build/test-helpers",
-        "build/tests"
+        "build/templates"
     ],
     "config": {
         "commitizen": {
