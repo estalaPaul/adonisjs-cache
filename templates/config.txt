@@ -2,7 +2,7 @@ import Env from '@ioc:Adonis/Core/Env'
 import { CacheConfig, CacheDrivers } from '@ioc:EstalaPaul/AdonisJSCache'
 
 const cacheConfig: CacheConfig = {
-    driver: Env.get('CACHE_DRIVER') as CacheDrivers,
+    driver: Env.get('CACHE_DRIVER', 'file') as CacheDrivers,
 
     stores: {
         file: {

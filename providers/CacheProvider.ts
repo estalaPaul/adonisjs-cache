@@ -5,10 +5,8 @@ export default class CacheProvider {
     constructor(protected app: ApplicationContract) {}
 
     public register() {
-        this.app.container.singleton('EstalaPaul/Adonis-Cache', () => {
+        this.app.container.singleton('EstalaPaul/AdonisJSCache', () => {
             return new CacheManager(this.app)
         })
-
-        this.app.container.alias('EstalaPaul/Adonis-Cache', 'Cache')
     }
 }
