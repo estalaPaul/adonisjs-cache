@@ -72,11 +72,6 @@
         "types": "adonisjs-cache",
         "providers": [
             "adonisjs-cache"
-        ],
-        "templates": {
-            "config": [
-                "cache.txt"
-              ]
-        }
+        ]
     }
 }
