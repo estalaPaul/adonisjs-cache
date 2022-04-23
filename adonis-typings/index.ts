@@ -4,7 +4,7 @@ declare module '@ioc:EstalaPaul/AdonisJSCache' {
     export type CacheDrivers = 'file'
 
     export interface CacheConfig {
-        default: CacheDrivers
+        driver: CacheDrivers
         stores: {
             file: {
                 driver: 'file'
