@@ -1,12 +1,12 @@
 {
-    "compileOnSave": true,
-	"compilerOptions": {
-		"skipLibCheck": true,
-		"experimentalDecorators": true,
-		"emitDecoratorMetadata": true,
-		"resolveJsonModule": true
-	},
     "extends": "./node_modules/@adonisjs/mrm-preset/_tsconfig",
+	"compilerOptions": {
+        "types": [
+            "@types/node",
+            "@adonisjs/core"
+        ],
+		"skipLibCheck": true
+	},
     "files": [
         "./node_modules/@adonisjs/core/build/adonis-typings/index.d.ts",
         "./adonis-typings/index.ts"
