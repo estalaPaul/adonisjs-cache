@@ -78,7 +78,10 @@ class File implements CacheStoreInterface {
     ): Promise<any> {
         const contents = {
             data: data,
-            time: duration !== null ? new Date().getTime() + duration : null,
+            time:
+                duration !== null
+                    ? new Date().getTime() + duration * 1000
+                    : null,
         }
 
         await writeFile(this.path(key), JSON.stringify(contents))
