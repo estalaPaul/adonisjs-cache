@@ -72,7 +72,7 @@ class CacheManager {
      * @param duration
      * Number of seconds the cache entry should last.
      * If no duration is given, the cache will be
-     * saved until it is implicitly deleted.
+     * saved until it is explicitly deleted.
      */
     public async set(
         key: string,
