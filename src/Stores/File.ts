@@ -122,28 +122,38 @@ class File implements CacheStoreInterface {
         }
     }
 
-    public async keys(): Promise<Record<string, string>> {
+    public async keys(): Promise<string[]> {
         const path = `${this.keysDirectory}/keys`
         try {
             return JSON.parse(await readFile(path, { encoding: 'utf-8' }))
         } catch (error) {
-            return {}
+            return []
         }
     }
 
     private async removeKey(key: string): Promise<void> {
         const keys = await this.keys()
-        delete keys[key]
+
+        let index = keys.indexOf(key)
+        if (index !== -1) {
+            keys.splice(index, 1)
+        }
+
         await this.saveKeys(keys)
     }
 
     private async storeKey(key: string): Promise<void> {
         const keys = await this.keys()
-        keys[key] = this.hashKey(key)
+
+        let index = keys.indexOf(key)
+        if (index === -1) {
+            keys.push(key)
+        }
+
         await this.saveKeys(keys)
     }
 
-    private async saveKeys(keys: Record<string, string>): Promise<void> {
+    private async saveKeys(keys: string[]): Promise<void> {
         await writeFile(`${this.keysDirectory}/keys`, JSON.stringify(keys))
     }
 

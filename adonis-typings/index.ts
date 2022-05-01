@@ -26,7 +26,7 @@ declare module '@ioc:EstalaPaul/AdonisJSCache' {
         ): Promise<boolean>
         delete(key: string): Promise<boolean>
         flush(): Promise<boolean>
-        keys(): Promise<Record<string, string>>
+        keys(): Promise<string[]>
     }
 
     export interface CacheStoreInterface {
@@ -41,7 +41,7 @@ declare module '@ioc:EstalaPaul/AdonisJSCache' {
         ): Promise<boolean>
         delete(key: string): Promise<boolean>
         flush(): Promise<boolean>
-        keys(): Promise<Record<string, string>>
+        keys(): Promise<string[]>
     }
 
     const Cache: CacheManagerInterface

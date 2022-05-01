@@ -123,7 +123,7 @@ class CacheManager {
     /**
      * Retrieves and returns all the keys currently stored in the file cache.
      */
-    public async keys(): Promise<Record<string, string>> {
+    public async keys(): Promise<string[]> {
         return this.store.keys()
     }
 }
