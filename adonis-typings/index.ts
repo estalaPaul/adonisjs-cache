@@ -16,14 +16,14 @@ declare module '@ioc:EstalaPaul/AdonisJSCache' {
     export interface CacheManagerInterface {
         constructor(config: ConfigContract): void
         has(key: string): Promise<boolean>
-        get(key: string): Promise<any>
+        get<T>(key: string): Promise<T>
         add(key: string, data: any, duration?: number | null): Promise<boolean>
-        set(key: string, data: any, duration?: number | null): Promise<any>
-        remember(
+        set<T>(key: string, data: any, duration?: number | null): Promise<T>
+        remember<T>(
             key: string,
             callback: Function,
             duration?: number | null
-        ): Promise<boolean>
+        ): Promise<T>
         delete(key: string): Promise<boolean>
         flush(): Promise<boolean>
         keys(): Promise<string[]>
@@ -31,14 +31,14 @@ declare module '@ioc:EstalaPaul/AdonisJSCache' {
 
     export interface CacheStoreInterface {
         has(key: string): Promise<boolean>
-        get(key: string): Promise<any>
+        get<T>(key: string): Promise<T>
         add(key: string, data: any, duration?: number | null): Promise<boolean>
-        set(key: string, data: any, duration?: number | null): Promise<any>
-        remember(
+        set<T>(key: string, data: any, duration?: number | null): Promise<T>
+        remember<T>(
             key: string,
             callback: Function,
             duration?: number | null
-        ): Promise<boolean>
+        ): Promise<T>
         delete(key: string): Promise<boolean>
         flush(): Promise<boolean>
         keys(): Promise<string[]>

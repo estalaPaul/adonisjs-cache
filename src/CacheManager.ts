@@ -41,7 +41,7 @@ class CacheManager {
      *
      * @param key The key for which to retrieve the cache entry for.
      */
-    public async get(key: string): Promise<any> {
+    public async get<T>(key: string): Promise<T> {
         return this.store.get(key)
     }
 
@@ -74,11 +74,11 @@ class CacheManager {
      * If no duration is given, the cache will be
      * saved until it is explicitly deleted.
      */
-    public async set(
+    public async set<T>(
         key: string,
         data: any,
         duration: number | null = null
-    ): Promise<any> {
+    ): Promise<T> {
         return this.store.set(key, data, duration)
     }
 
@@ -96,11 +96,11 @@ class CacheManager {
      * If no duration is given, the cache will be
      * saved until it is explicitly deleted.
      */
-    public async remember(
+    public async remember<T>(
         key: string,
         callback: Function,
         duration: number | null = null
-    ): Promise<any> {
+    ): Promise<T> {
         return await this.store.remember(key, callback, duration)
     }
 
