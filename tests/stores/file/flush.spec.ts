@@ -11,7 +11,7 @@ test('can flush cache entries', async ({ expect }) => {
     const flushed = await fileStore.flush()
 
     expect(flushed).toBeTruthy()
-    expect(await fileStore.keys()).toEqual({})
+    expect(await fileStore.keys()).toEqual([])
 })
 
 test('flush fails gracefully', async ({ expect }) => {

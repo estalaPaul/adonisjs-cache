@@ -10,10 +10,10 @@ test('keys are stored correctly', async ({ expect }) => {
 
     const keys = await fileStore.keys()
 
-    expect(Object.keys(keys)).toHaveLength(3)
-    expect(Object.keys(keys)).toContain('random')
-    expect(Object.keys(keys)).toContain('random2')
-    expect(Object.keys(keys)).toContain('random3')
+    expect(keys).toHaveLength(3)
+    expect(keys).toContain('random')
+    expect(keys).toContain('random2')
+    expect(keys).toContain('random3')
     await cleanCacheEntries(['random', 'random2', 'random3'], fileStore)
 })
 
@@ -25,7 +25,7 @@ test('keys are deleted correctly', async ({ expect }) => {
 
     const keys = await fileStore.keys()
 
-    expect(Object.keys(keys)).toHaveLength(1)
-    expect(Object.keys(keys)).toContain('random2')
+    expect(keys).toHaveLength(1)
+    expect(keys).toContain('random2')
     await cleanCacheEntries(['random2'], fileStore)
 })

@@ -47,7 +47,7 @@ test('can get keys with cache manager', async ({ expect }) => {
 
     const result = await manager.keys()
 
-    expect(result).toEqual({})
+    expect(result).toEqual([])
 })
 
 test('can remember with cache manager', async ({ expect }) => {

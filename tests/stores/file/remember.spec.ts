@@ -34,7 +34,7 @@ test('remember saves data if entry is expired', async ({ expect }) => {
     const data = { foo: 'bar', ping: 'pong' }
     const currentTime = new Date().getTime()
 
-    const clock = FakeTimers.install({ now: currentTime + 40 })
+    const clock = FakeTimers.install({ now: currentTime + 40000 })
 
     await fileStore.remember('random', () => {
         return data

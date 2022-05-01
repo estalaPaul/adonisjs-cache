@@ -26,7 +26,7 @@ test('has detects expired cache entry', async ({ expect }) => {
     const data = { foo: 'bar', ping: 'pong' }
     await fileStore.set('random', data, 30)
     const currentTime = new Date().getTime()
-    const clock = FakeTimers.install({ now: currentTime + 40 })
+    const clock = FakeTimers.install({ now: currentTime + 40000 })
 
     const has = await fileStore.has('random')
 
