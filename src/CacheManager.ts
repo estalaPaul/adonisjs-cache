@@ -41,7 +41,7 @@ class CacheManager {
      *
      * @param key The key for which to retrieve the cache entry for.
      */
-    public async get<T>(key: string): Promise<T> {
+    public async get<T>(key: string): Promise<T | null> {
         return this.store.get(key)
     }
 
@@ -100,7 +100,7 @@ class CacheManager {
         key: string,
         callback: Function,
         duration: number | null = null
-    ): Promise<T> {
+    ): Promise<T | null> {
         return await this.store.remember(key, callback, duration)
     }
 

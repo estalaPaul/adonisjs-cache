@@ -31,7 +31,7 @@ class File implements CacheStoreInterface {
         return (await this.get(key)) !== null
     }
 
-    public async get<T>(key: string): Promise<T> {
+    public async get<T>(key: string): Promise<T | null> {
         try {
             const contents = JSON.parse(
                 await readFile(this.path(key), { encoding: 'utf-8' })
@@ -93,7 +93,7 @@ class File implements CacheStoreInterface {
         key: string,
         callback: Function,
         duration: number | null = null
-    ): Promise<T> {
+    ): Promise<T | null> {
         if (await this.has(key)) {
             return await this.get(key)
         }
