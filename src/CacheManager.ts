@@ -28,7 +28,7 @@ class CacheManager {
     }
 
     /**
-     * Checks if the given key exists as file cache entry.
+     * Checks if the given key exists as a cache entry.
      *
      * @param key The key for which to check for.
      */
@@ -37,16 +37,16 @@ class CacheManager {
     }
 
     /**
-     * Attempts to retrieve and return the given key from file cache if it exists and it is not expired.
+     * Attempts to retrieve and return the given key from cache if it exists and it is not expired.
      *
-     * @param key The key for which to retrieve the file cache entry for.
+     * @param key The key for which to retrieve the cache entry for.
      */
     public async get(key: string): Promise<any> {
         return this.store.get(key)
     }
 
     /**
-     * Creates a new cache entry only if it does not exists. Returns true if the cache
+     * Creates a new cache entry only if it does not exist. Returns true if the cache
      * entry was created, false otherwise.
      *
      * @param key The key for which to check for.
@@ -65,9 +65,9 @@ class CacheManager {
     }
 
     /**
-     * Creates or overwrites a file cache entry with the given key and returns the stored data.
+     * Creates or overwrites a cache entry with the given key and returns the stored data.
      *
-     * @param key The key for which to create the file cache entry for.
+     * @param key The key for which to create the cache entry for.
      * @param data The data to save in the cache entry.
      * @param duration
      * Number of seconds the cache entry should last.
@@ -84,10 +84,10 @@ class CacheManager {
 
     /**
      * Attempts to retrieve the given value from cache and if no
-     * value is found, it creates a new file cache entry with
+     * value is found, it creates a new cache entry with
      * the value retrieved from the callback given.
      *
-     * @param key The key for which to create the file cache entry for.
+     * @param key The key for which to create the cache entry for.
      * @param callback
      * Function to use to set value if cache entry with
      * given key does not exist.
@@ -105,23 +105,23 @@ class CacheManager {
     }
 
     /**
-     * Attempts to delete a file cache entry with the given key. Returns true on success and false on failure.
+     * Attempts to delete a cache entry with the given key. Returns true on success and false on failure.
      *
-     * @param key The key for which to delete the file cache entry for.
+     * @param key The key for which to delete the cache entry for.
      */
     public async delete(key: string): Promise<boolean> {
         return this.store.delete(key)
     }
 
     /**
-     * Attempts to remove all file cache entries. Returns true on success and false on failure.
+     * Attempts to remove all cache entries. Returns true on success and false on failure.
      */
     public async flush(): Promise<boolean> {
         return this.store.flush()
     }
 
     /**
-     * Retrieves and returns all the keys currently stored in the file cache.
+     * Retrieves and returns all the keys currently stored in cache.
      */
     public async keys(): Promise<string[]> {
         return this.store.keys()
