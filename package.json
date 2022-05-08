@@ -3,7 +3,7 @@
         "mrm": "mrm --preset=@adonisjs/mrm-preset",
         "lint": "eslint . --ext=.ts",
         "pretest": "npm run lint",
-        "test": "nyc node -r @adonisjs/require-ts/build/register bin/test.ts",
+        "test": "npx nyc -a --include 'src/**/*' node -r @adonisjs/require-ts/build/register bin/test.ts",
         "clean": "del-cli build",
         "compile": "npm run lint && npm run clean && tsc && npm run copy-templates",
         "commit": "git-cz",
