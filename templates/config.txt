@@ -7,7 +7,7 @@ const cacheConfig: CacheConfig = {
     stores: {
         file: {
             driver: 'file',
-            path: 'cache/data',
+            path: 'cache',
         },
     },
 }
