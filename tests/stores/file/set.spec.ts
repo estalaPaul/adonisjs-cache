@@ -7,10 +7,10 @@ test('can save cache entry forever', async ({ expect }) => {
     const fileStore = new FileStore('./.tmp')
     const data = { foo: 'bar', ping: 'pong' }
 
-    await fileStore.set('random', data)
+    await fileStore.set('products', data)
 
-    expect(await fileStore.get('random')).toEqual(data)
-    await cleanCacheEntries(['random'], fileStore)
+    expect(await fileStore.get('products')).toEqual(data)
+    await cleanCacheEntries(['products'], fileStore)
 })
 
 test('can save cache entry for certain time', async ({ expect }) => {

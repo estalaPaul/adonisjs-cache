@@ -162,7 +162,7 @@ class File implements CacheStoreInterface {
     }
 
     private hashKey(key: string): string {
-        return crypto.createHash('sha1').update(key).digest('base64')
+        return crypto.createHash('sha1').update(key).digest('hex')
     }
 }
 
