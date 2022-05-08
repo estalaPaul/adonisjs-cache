@@ -17,7 +17,7 @@ test('get invalid cache entry', async ({ expect }) => {
     const path = `./.tmp/cache/${crypto
         .createHash('sha1')
         .update('random')
-        .digest('base64')}`
+        .digest('hex')}`
     await writeFile(path, JSON.stringify({ test: 'testing' }))
 
     const getResult = await fileStore.get('random')

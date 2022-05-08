@@ -1,6 +1,7 @@
 import { test } from '@japa/runner'
 import FileStore from '../../../src/Stores/File'
 import { cleanCacheEntries } from '../../../test-helpers'
+import { writeFile } from 'fs/promises'
 
 test('keys are stored correctly', async ({ expect }) => {
     const fileStore = new FileStore('./.tmp')
@@ -28,4 +29,15 @@ test('keys are deleted correctly', async ({ expect }) => {
     expect(keys).toHaveLength(1)
     expect(keys).toContain('random2')
     await cleanCacheEntries(['random2'], fileStore)
+})
+
+test('can delete inexistent key', async ({ expect }) => {
+    const fileStore = new FileStore('./.tmp')
+    await fileStore.set('random', { foo: 'bar' })
+    await writeFile(`./.tmp/keys/keys`, JSON.stringify([]))
+
+    const keys = await fileStore.keys()
+
+    expect(keys).toHaveLength(0)
+    await cleanCacheEntries(['random'], fileStore)
 })
