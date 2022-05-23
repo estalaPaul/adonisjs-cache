@@ -10,6 +10,9 @@ declare module '@ioc:EstalaPaul/AdonisJSCache' {
                 driver: 'file'
                 path: string
             }
+            redis: {
+                connection: string
+            }
         }
     }
 

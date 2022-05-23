@@ -1,15 +1,18 @@
 import { CacheStoreInterface } from '@ioc:EstalaPaul/AdonisJSCache'
+import RedisBase from '@ioc:Adonis/Addons/Redis'
 
-class File implements CacheStoreInterface {
-    private directory: string
+class Redis implements CacheStoreInterface {
+    private redisConnection: typeof RedisBase
 
-    constructor() {
+    constructor(redis: typeof RedisBase) {
+        this.redisConnection = redis
     }
 
     public async has(key: string): Promise<boolean> {
     }
 
     public async get<T>(key: string): Promise<T | null> {
+        this.redisConnection.get()
     }
 
     public async add(
@@ -91,4 +94,4 @@ class File implements CacheStoreInterface {
     }
 }
 
-export default File
+export default Redis

@@ -5,6 +5,7 @@ import {
     CacheStoreInterface,
 } from '@ioc:EstalaPaul/AdonisJSCache'
 import FileStore from './Stores/File'
+import RedisStore from './Stores/Redis'
 
 class CacheManager {
     private store: CacheStoreInterface
@@ -26,19 +27,23 @@ class CacheManager {
                 break
             case 'redis':
                 if (!app.container.hasBinding('Adonis/Addons/Redis')) {
-                    throw new Error('"@adonisjs/redis" is required to use the redis driver.')
+                    throw new Error(
+                        '"@adonisjs/redis" is required to use the redis driver.'
+                    )
                 }
 
-                const redisDriverConfig: CacheConfig['stores']['file'] =
-                    config.get('cache.stores.file')
+                const redisDriverConfig: CacheConfig['stores']['redis'] =
+                    config.get('cache.stores.redis')
 
-                this.redis = app.container.use('Adonis/Addons/Redis')
-
-                if (!fileDriverConfig) {
-                    throw new Error('No driver config found for file.')
+                if (!redisDriverConfig) {
+                    throw new Error('No driver config found for redis.')
                 }
 
-                this.config = app.container.use('Adonis/Core/Config').get('redis')
+                const redis = app.container
+                    .use('Adonis/Addons/Redis')
+                    .connection(redisDriverConfig.connection)
+                this.store = new RedisStore(redis)
+                break
         }
     }
 
