@@ -24,6 +24,21 @@ class CacheManager {
 
                 this.store = new FileStore(app.makePath(fileDriverConfig.path))
                 break
+            case 'redis':
+                if (!app.container.hasBinding('Adonis/Addons/Redis')) {
+                    throw new Error('"@adonisjs/redis" is required to use the redis driver.')
+                }
+
+                const redisDriverConfig: CacheConfig['stores']['file'] =
+                    config.get('cache.stores.file')
+
+                this.redis = app.container.use('Adonis/Addons/Redis')
+
+                if (!fileDriverConfig) {
+                    throw new Error('No driver config found for file.')
+                }
+
+                this.config = app.container.use('Adonis/Core/Config').get('redis')
         }
     }
 

@@ -26,6 +26,21 @@ export async function setupApplication() {
             }
         }`
     )
+    await fs.add(
+        'config/redis.ts',
+        `{
+            connection: 'local',
+            connections: {
+                local: {
+                    host: 'localhost',
+                    port: 6379,
+                    password: '',
+                    db: 0,
+                    keyPrefix: '',
+                },
+            },
+        }`
+    )
 
     app = new Application(fs.basePath, 'test')
 
