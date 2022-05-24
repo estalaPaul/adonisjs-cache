@@ -1,18 +1,29 @@
+import { RedisClusterConnectionContract, RedisConnectionContract } from '@ioc:Adonis/Addons/Redis'
 import { CacheStoreInterface } from '@ioc:EstalaPaul/AdonisJSCache'
-import RedisBase from '@ioc:Adonis/Addons/Redis'
 
 class Redis implements CacheStoreInterface {
-    private redisConnection: typeof RedisBase
+    private connection: RedisConnectionContract | RedisClusterConnectionContract
 
-    constructor(redis: typeof RedisBase) {
-        this.redisConnection = redis
+    constructor(redis: RedisConnectionContract | RedisClusterConnectionContract) {
+        this.connection = redis
     }
 
     public async has(key: string): Promise<boolean> {
+        return await this.connection.exists(key) > 0
     }
 
     public async get<T>(key: string): Promise<T | null> {
-        this.redisConnection.get()
+        try {
+            const data = await this.connection.get(key)
+
+            if (data === null) {
+                return null
+            }
+
+            return JSON.parse(data)
+        } catch (error) {
+            return null
+        }
     }
 
     public async add(
@@ -20,6 +31,12 @@ class Redis implements CacheStoreInterface {
         data: any,
         duration: number | null = null
     ): Promise<boolean> {
+        if (await this.has(key)) {
+            return false
+        }
+
+        await this.set(key, data, duration)
+        return true
     }
 
     public async set<T>(
@@ -27,17 +44,22 @@ class Redis implements CacheStoreInterface {
         data: any,
         duration: number | null = null
     ): Promise<T> {
+        if (duration === null) {
+            await this.connection.set(key, JSON.stringify(data))
+            return data
+        }
+
+        await this.connection.setex(key, duration, JSON.stringify(data))
+        return data
     }
 
     public async remember<T>(
         key: string,
         callback: Function,
         duration: number | null = null
-    ): Promise<T | null> {
-    }
+    ): Promise<T | null> {}
 
-    public async delete(key: string): Promise<boolean> {
-    }
+    public async delete(key: string): Promise<boolean> {}
 
     public async flush(): Promise<boolean> {
         try {
@@ -92,6 +114,9 @@ class Redis implements CacheStoreInterface {
     private hashKey(key: string): string {
         return crypto.createHash('sha1').update(key).digest('hex')
     }
+}
+
+export default Redis    }
 }
 
 export default Redis
