@@ -1,7 +1,7 @@
 declare module '@ioc:EstalaPaul/AdonisJSCache' {
     import { ConfigContract } from '@ioc:Adonis/Core/Config'
 
-    export type CacheDrivers = 'file'
+    export type CacheDrivers = 'file' | 'redis'
 
     export interface CacheConfig {
         driver: CacheDrivers

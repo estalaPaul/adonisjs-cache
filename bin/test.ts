@@ -2,58 +2,6 @@ import { expect } from '@japa/expect'
 import { specReporter } from '@japa/spec-reporter'
 import { processCliArgs, configure, run } from '@japa/runner'
 
-import { join } from 'path'
-import { Filesystem } from '@poppinss/dev-utils'
-import { Application } from '@adonisjs/core/build/standalone'
-
-export const fs = new Filesystem(join(__dirname, '..', '.tmp'))
-export let app: Application
-
-/**
- * Setup application
- */
-export async function setupApplication() {
-    await fs.add('.env', '')
-    await fs.add('.adonisrc.json', '{}')
-    await fs.add('config/app.ts', "export const appKey = 'some-random-app-key'")
-    await fs.add(
-        'config/cache.ts',
-        `export const driver = 'file'
-         export const stores = {
-            file: {
-                driver: 'file',
-                path: './testing-cache-manager'
-            }
-        }`
-    )
-    await fs.add(
-        'config/redis.ts',
-        `{
-            connection: 'local',
-            connections: {
-                local: {
-                    host: 'localhost',
-                    port: 6379,
-                    password: '',
-                    db: 0,
-                    keyPrefix: '',
-                },
-            },
-        }`
-    )
-
-    app = new Application(fs.basePath, 'test')
-
-    app.setup()
-    app.registerProviders()
-    await app.bootProviders()
-}
-
-export async function teardownApplication() {
-    await app.shutdown()
-    await fs.cleanup()
-}
-
 /*
 |--------------------------------------------------------------------------
 | Configure tests
@@ -74,8 +22,6 @@ configure({
         plugins: [expect()],
         reporters: [specReporter()],
         importer: (filePath) => import(filePath),
-        setup: [setupApplication],
-        teardown: [teardownApplication],
     },
 })
 
